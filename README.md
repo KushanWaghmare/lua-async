@@ -1,4 +1,5 @@
  lua-async
+ =========
 
 A coroutine-friendly async executor for blocking Lua libraries.
 Runs blocking calls on worker lanes (LuaLanes) and resumes

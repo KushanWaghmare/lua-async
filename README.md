@@ -1,13 +1,13 @@
-# lua-async
+ lua-async
 
 A coroutine-friendly async executor for blocking Lua libraries.
 Runs blocking calls on worker lanes (LuaLanes) and resumes
 the calling coroutine when the result is ready.
 
-## Installation
-luarocks install lua-async
+Installation
+ *luarocks install lua-async
 
-## Quick start
+ Quick start
 local async  = require("async")
 local luasql = require("luasql.sqlite3")
 

@@ -18,6 +18,23 @@ Essential Documentation
 
 All users should be familiar with:
 
-* Architecture: async/scheduler.lua, async/pool.lua, async/init.lua
-* Drivers: async/drivers/luasql.lua, async/drivers/redis.lua
+* Execution Model:
+  - Scheduler: Registers calling coroutines and non-blocking yields (async/scheduler.lua)
+  - Pool: Multi-threaded lane management and Linda FIFO task queues (async/pool.lua)
+  - Event Loop: 1ms timer dispatcher running on libuv (async/init.lua)
+
+* Driver Adapters:
+  - LuaSQL Adapter: Thread-safe connection pool with cursor drain (async/drivers/luasql.lua)
+  - Redis Adapter: Non-blocking client wrapper (async/drivers/redis.lua)
+
+* Driver Interface Specification:
+  - setup(config) -> state: Initialises one connection per OS worker thread
+  - call(state, method, args) -> result: Executes job inside thread and serialises output
+  - teardown(state): Releases connections on pool shutdown
+
+* Requirements:
+  - Lua 5.1, 5.2, 5.3, 5.4, or LuaJIT
+  - LuaLanes
+  - luv (libuv)
+
 * License: See LICENSE

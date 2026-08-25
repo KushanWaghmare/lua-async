@@ -78,6 +78,7 @@ end
 
 --- Wraps a stateful driver
 function async.wrap(driver_module, config, opts)
+  assert(async._timer, "lua-async: async.start() must be called before using wrapped drivers")
   opts = opts or {}
   local pool = Pool.new(driver_module, config, opts.workers or 4)
   table.insert(async._pools, pool)

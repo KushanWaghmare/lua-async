@@ -1,7 +1,7 @@
 package = "lua-async"
 version = "0.1.0-1"
 source = {
-   url = "git://github.com/KushanWaghmare/lua-async.git",
+   url = "https://github.com/KushanWaghmare/lua-async.git",
    tag = "v0.1.0"
 }
 description = {

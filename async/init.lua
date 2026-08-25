@@ -51,8 +51,23 @@ function async.run(mode)
   return luv.run(mode or "default")
 end
 
+--- Convenience helper to wrap a function in a coroutine and start it
+function async.go(fn, ...)
+  local args = {...}
+  local argn = select("#", ...)
+  local co = coroutine.create(function()
+    fn(table.unpack(args, 1, argn))
+  end)
+  local ok, err = coroutine.resume(co)
+  if not ok then
+    io.stderr:write(string.format("\n[lua-async] ERROR: Unhandled error in async.go coroutine: %s\n", tostring(err)))
+  end
+  return co
+end
+
 --- Spawns a stateless one-off job
 function async.spawn(fn_or_code, ...)
+  assert(async._pool, "lua-async: async.setup() must be called before using async.spawn()")
   local id = async._scheduler:register()
   async._pool:dispatch({ 
     type = "stateless", id = id,

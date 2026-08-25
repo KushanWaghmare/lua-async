@@ -48,9 +48,12 @@ function Scheduler:deliver(id, ok, val)
   -- Resume the coroutine. The 'ok' and 'val' will be returned by coroutine.yield()
   local resume_ok, err = coroutine.resume(co, ok, val)
   
-  -- If the coroutine itself crashes after waking up, throw the error
+  -- If the coroutine itself crashes after waking up, log it instead of killing the libuv loop
   if not resume_ok then
-    error("Coroutine error after resume: " .. tostring(err))
+    io.stderr:write(string.format(
+      "\n[lua-async] ERROR: Unhandled error in coroutine (Job ID: %s): %s\n", 
+      tostring(id), tostring(err)
+    ))
   end
   
   return true

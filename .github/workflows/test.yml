@@ -1,0 +1,35 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        luaVersion: ["5.1", "5.2", "5.3", "5.4", "luajit"]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: ${{ matrix.luaVersion }}
+
+      - name: Setup LuaRocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install Dependencies
+        run: |
+          luarocks install lanes
+          luarocks install luv
+          luarocks install busted
+          luarocks install luasql-sqlite3
+          luarocks install redis-lua
+      
+      - name: Run Tests
+        run: busted spec/

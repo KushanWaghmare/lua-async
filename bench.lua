@@ -23,7 +23,7 @@ local function setup_db()
   
   pragma("PRAGMA journal_mode=WAL")
   pragma("PRAGMA synchronous=NORMAL")
-  
+
   assert(conn:execute("CREATE TABLE records (id INTEGER PRIMARY KEY, data TEXT)"))
   for i = 1, NUM_QUERIES do
     assert(conn:execute(string.format("INSERT INTO records VALUES (%d, 'Payload data for %d')", i, i)))

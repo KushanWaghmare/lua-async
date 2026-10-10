@@ -64,9 +64,7 @@ describe("async.spawn() end-to-end", function()
 
     local co = coroutine.create(function()
       local ok, err = pcall(function()
-        async.spawn(function()
-          error("Simulated worker error")
-        end)
+        async.spawn([[ return error("Simulated worker error") ]])
       end)
       if not ok then
         caught_err = err

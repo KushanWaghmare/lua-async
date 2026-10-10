@@ -1,4 +1,7 @@
-local lanes = require("lanes").configure()
+local lanes = require("lanes")
+if lanes.configure then
+  lanes.configure()
+end
 
 local Pool = {}
 Pool.__index = Pool

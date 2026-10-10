@@ -58,9 +58,7 @@ describe("Pool (OS Threads / LuaLanes)", function()
     pool:dispatch({
       type = "stateless",
       id = 103,
-      fn = function()
-        error("Worker task failed intentionally")
-      end
+      fn = [[ return error("Worker task failed intentionally") ]]
     })
 
     local key1, res1 = pool._linda:receive(2.0, "results")
